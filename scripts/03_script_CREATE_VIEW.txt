@@ -1,0 +1,82 @@
+--#############
+--# Paulo Trigo
+--#############
+
+
+--==============
+-- DB connection
+--==============
+\set dataBase db_final_project
+;
+\set userName postgres
+;
+\connect :dataBase :userName
+;
+--==========================
+--==========================
+
+
+-- additional information about "client_encoding" in:
+-- http://www.postgresql.org/docs/9.6/static/multibyte.html
+\encoding WIN1250
+;
+
+
+
+---------------------------------
+DROP TABLE IF EXISTS t1_class CASCADE;
+DROP VIEW IF EXISTS v1;
+DROP VIEW IF EXISTS v1_domain;
+DROP VIEW IF EXISTS v1_class;
+DROP VIEW IF EXISTS v1_dataset;
+---------------------------------
+
+
+
+
+CREATE VIEW v1 AS 
+SELECT P.patient_id || '' AS patient_id,
+P.name || '' AS name,
+P.birth_date || '' AS birth_date,
+P.lens_name_patient || '' AS lens_name_patient,
+P.tear_rate_name_patient || '' AS tear_rate_name_patient,
+P.doctor_id_patient || '' AS doctor_id_patient,
+CAST(EXISTS (SELECT * FROM Disease D WHERE D.patient_id_disease = P.patient_id AND D.disease_name = 'myope') AS text) AS myope,
+CAST(EXISTS (SELECT * FROM Disease A WHERE A.patient_id_disease = P.patient_id AND A.disease_name = 'astigmatic') AS text) AS astigmatic,
+CAST(EXISTS (SELECT * FROM Disease H WHERE H.patient_id_disease = P.patient_id AND H.disease_name = 'hypermetrope') AS text) AS hypermetrope
+FROM Patient P;
+
+CREATE TABLE t1_class (
+patient_id text,
+name text,
+birth_date text,
+lens_name_patient text,
+tear_rate_name_patient text,
+doctor_id_patient text,
+myope text,
+astigmatic text,
+hypermetrope text );
+
+INSERT INTO t1_class VALUES ( NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,'class' );
+INSERT INTO t1_class VALUES ( 'discrete', 'discrete', 'discrete', 'discrete',
+'discrete', 'discrete', 'discrete', 'discrete', 'discrete' );
+
+CREATE VIEW v1_domain AS SELECT * FROM t1_class WHERE t1_class.hypermetrope = 'discrete';
+CREATE VIEW v1_class AS SELECT * FROM t1_class WHERE t1_class.hypermetrope = 'class';
+
+-- Orange "3-Row-Header" format
+
+CREATE VIEW v1_dataset (patient_id, name, birth_date, lens_name_patient, tear_rate_name_patient, doctor_id_patient, myope, astigmatic, hypermetrope) AS
+SELECT * FROM (
+	SELECT * FROM v1 V
+UNION
+	SELECT * FROM v1_domain D
+UNION
+	SELECT * FROM v1_class C
+) t
+ORDER BY
+	(CASE
+		WHEN hypermetrope = 'discrete' THEN 1
+		WHEN hypermetrope = 'class' THEN 2
+		ELSE 5
+	END) ASC;

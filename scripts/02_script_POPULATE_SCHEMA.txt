@@ -1,0 +1,64 @@
+--#############
+--# Paulo Trigo
+--#############
+
+
+--==============
+-- DB connection
+--==============
+\set dataBase db_final_project
+;
+\set userName postgres
+;
+\connect :dataBase :userName
+;
+--==========================
+--==========================
+
+---------------------------------
+DELETE FROM Disease;
+DELETE FROM Patient;
+DELETE FROM Lenses;
+DELETE FROM TearRate;
+DELETE FROM Doctor;
+---------------------------------
+
+-- Lenses
+INSERT INTO Lenses( lens_name )
+VALUES ( 'hard' )
+;
+INSERT INTO Lenses( lens_name )
+VALUES ( 'soft' )
+;
+INSERT INTO Lenses( lens_name )
+VALUES ( 'none' )
+;
+
+-- Tear Rate
+INSERT INTO TearRate( tear_rate_name )
+VALUES ( 'normal' )
+;
+INSERT INTO TearRate( tear_rate_name )
+VALUES ( 'reduced' )
+;
+
+-- Doctor
+INSERT INTO Doctor( doctor_id, doctor_name )
+VALUES ( 1, 'John' )
+;
+INSERT INTO Doctor( doctor_id, doctor_name )
+VALUES ( 2, 'Stacy' )
+;
+
+-- Patient
+INSERT INTO Patient( patient_id, name, birth_date, lens_name_patient, tear_rate_name_patient, doctor_id_patient )
+VALUES ( 12, 'Test Name', '1990-01-01', 'none', 'normal', 1 )
+;
+
+-- Disease
+INSERT INTO Disease( disease_name, patient_id_disease )
+VALUES ( 'myope', 12 )
+;
+INSERT INTO Disease( disease_name, patient_id_disease )
+VALUES ( 'astigmatic', 12 )
+;

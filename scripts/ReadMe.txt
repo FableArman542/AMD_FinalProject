@@ -1,0 +1,1 @@
+Nao foi utilizada a variavel "psqlPath" pois o caminho para o o PostgreSQL foi adicionado as variaveis de ambiente do sistema.
