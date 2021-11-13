@@ -51,14 +51,53 @@ VALUES ( 2, 'Stacy' )
 ;
 
 -- Patient
-INSERT INTO Patient( patient_id, name, birth_date, lens_name_patient, tear_rate_name_patient, doctor_id_patient )
-VALUES ( 12, 'Test Name', '1990-01-01', 'none', 'normal', 1 )
+INSERT INTO Patient( patient_id, name, birth_date )
+VALUES ( 1, 'Joao Cunha', '1990-01-01')
+;
+
+INSERT INTO Patient( patient_id, name, birth_date )
+VALUES ( 2, 'Duarte Cunha', '1995-01-01')
 ;
 
 -- Disease
-INSERT INTO Disease( disease_name, patient_id_disease )
-VALUES ( 'myope', 12 )
+INSERT INTO Disease( disease_name )
+VALUES ( 'myope' )
 ;
-INSERT INTO Disease( disease_name, patient_id_disease )
-VALUES ( 'astigmatic', 12 )
+INSERT INTO Disease( disease_name )
+VALUES ( 'astigmatic' )
+;
+INSERT INTO Disease( disease_name )
+VALUES ( 'hypermetrope' )
+;
+
+-- Appointment
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 1, 1, '2021-11-2', 'hard', 'normal', 2)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 2, 1, '2021-11-6', 'hard', 'reduced', 2)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 3, 2, '2021-11-6', 'hard', 'reduced', 1)
+;
+
+-- Diseases
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'myope', 1 )
+;
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'hypermetrope', 1 )
+;
+
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'hypermetrope', 2 )
+;
+
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'astigmatic', 3 )
 ;

@@ -19,39 +19,46 @@
 --==============================
 -- drop constraints
 --==============================
-ALTER TABLE R2
-DROP CONSTRAINT fk1_R2;
 
-ALTER TABLE R3
-DROP CONSTRAINT fk1_R3;
+ALTER TABLE Appointment DROP CONSTRAINT fk_Appointment_1;
 
-ALTER TABLE R3
-DROP CONSTRAINT fk2_R3;
+ALTER TABLE Appointment DROP CONSTRAINT fk_Appointment_2;
 
-ALTER TABLE R1
-DROP CONSTRAINT pk_R1;
+ALTER TABLE Appointment DROP CONSTRAINT fk_Appointment_3;
 
-ALTER TABLE R1
-DROP CONSTRAINT ak1_R1;
+ALTER TABLE Appointment DROP CONSTRAINT fk_Appointment_4;
 
-ALTER TABLE R2
-DROP CONSTRAINT pk_R2;
+ALTER TABLE Diseases DROP CONSTRAINT fk_Diseases_1;
 
-ALTER TABLE R3
-DROP CONSTRAINT pk_R3;
+ALTER TABLE Diseases DROP CONSTRAINT fk_Diseases_2;
 
-ALTER TABLE R4
-DROP CONSTRAINT pk_R4;
+ALTER TABLE Lenses DROP CONSTRAINT pk_Lenses;
 
+ALTER TABLE TearRate DROP CONSTRAINT pkTearRate;
 
+ALTER TABLE Appointment DROP CONSTRAINT pk_Appointment;
+
+ALTER TABLE Patient DROP CONSTRAINT pk_Patient;
+
+ALTER TABLE Diseases DROP CONSTRAINT pk_Diseases;
+
+ALTER TABLE Disease DROP CONSTRAINT pk_Disease;
+
+ALTER TABLE Doctor DROP CONSTRAINT pk_Doctor;
 
 --==============================
 -- drop tables
 --==============================
 
+DROP TABLE t1_class CASCADE;
+DROP TABLE Disease;
+DROP TABLE Lenses;
+DROP TABLE TearRate;
+DROP TABLE Doctor;
 DROP VIEW v1;
-
-DROP TABLE r1;
-DROP TABLE r2;
-DROP TABLE r3;
-DROP TABLE r4;
+DROP TABLE Patient;
+DROP TABLE Appointment;
+DROP TABLE Diseases;
+DROP VIEW IF EXISTS v1_domain;
+DROP VIEW IF EXISTS v1_class;
+DROP VIEW IF EXISTS v1_dataset;

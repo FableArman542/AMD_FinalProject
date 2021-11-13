@@ -28,11 +28,26 @@ DROP TABLE IF EXISTS TearRate;
 DROP TABLE IF EXISTS Doctor;
 --------------------------------
 
+CREATE TABLE Appointment(
+appointment_id int NOT NULL,
+patient_id int NULL,
+appointment_date date NOT NULL,
+lens_name VARCHAR(30) NOT NULL,
+tear_rate_name VARCHAR(30) NOT NULL,
+doctor_id int NOT NULL
+);
+
 CREATE TABLE Patient
 (
 patient_id INT NOT NULL,
 name VARCHAR(100) NOT NULL,
 birth_date DATE NOT NULL
+);
+
+CREATE TABLE Diseases
+(
+disease_name VARCHAR(30) NOT NULL,
+appointment_id int NOT NULL
 );
 
 CREATE TABLE Disease
@@ -59,33 +74,6 @@ doctor_id INT NOT NULL,
 doctor_name VARCHAR(100) NOT NULL
 );
 
-
-----------------------------
--- relationship attributes
-----------------------------
-
--- Patient -> Lenses
-ALTER TABLE Patient
-ADD lens_name_patient VARCHAR(30)
-;
-
-
--- Patient -> Tear Rate
-ALTER TABLE Patient
-ADD tear_rate_name_patient VARCHAR(30) NOT NULL
-;
-
-
--- Patient -> Doctor
-ALTER TABLE Patient
-ADD doctor_id_patient INT NOT NULL
-;
-
--- Disease -> Patient
-ALTER TABLE Disease
-ADD patient_id_disease INT NOT NULL
-;
-
 -------------------------------
 -- entity integrity constraints
 -- (primary key and unique)
@@ -96,11 +84,20 @@ ADD CONSTRAINT pk_Patient
     PRIMARY KEY( patient_id )
 ;
 
-ALTER TABLE Disease
-ADD CONSTRAINT pk_Disease
-    PRIMARY KEY ( disease_name, patient_id_disease )
+ALTER TABLE Appointment
+ADD CONSTRAINT pk_Appointment
+    PRIMARY KEY( appointment_id )
 ;
 
+ALTER TABLE Diseases
+ADD CONSTRAINT pk_Diseases
+    PRIMARY KEY ( disease_name, appointment_id )
+;
+
+ALTER TABLE Disease
+ADD CONSTRAINT pk_Disease
+    PRIMARY KEY ( disease_name )
+;
 
 ALTER TABLE Lenses
 ADD CONSTRAINT pk_Lenses
@@ -126,26 +123,38 @@ ADD CONSTRAINT pk_Doctor
 -- (foreign key)
 ----------------------------------------
 
-ALTER TABLE Patient
-ADD CONSTRAINT fk_Patient_1
-    FOREIGN KEY( lens_name_patient )
-	REFERENCES Lenses(lens_name)
+ALTER TABLE Appointment
+ADD CONSTRAINT fk_Appointment_1
+    FOREIGN KEY( patient_id )
+	REFERENCES Patient( patient_id )
 ;
 
-ALTER TABLE Patient
-ADD CONSTRAINT fk_Patient_2
-    FOREIGN KEY( tear_rate_name_patient )
-	REFERENCES TearRate(tear_rate_name)
+ALTER TABLE Appointment
+ADD CONSTRAINT fk_Appointment_2
+    FOREIGN KEY( lens_name )
+	REFERENCES Lenses( lens_name )
 ;
 
-ALTER TABLE Patient
-ADD CONSTRAINT fk_Patient_3
-    FOREIGN KEY( doctor_id_patient )
-	REFERENCES Doctor(doctor_id)
+ALTER TABLE Appointment
+ADD CONSTRAINT fk_Appointment_3
+    FOREIGN KEY( tear_rate_name )
+	REFERENCES TearRate( tear_rate_name )
 ;
 
-ALTER TABLE Disease
-ADD CONSTRAINT fk_Disease
-    FOREIGN KEY ( patient_id_disease )
-	REFERENCES Patient(patient_id)
+ALTER TABLE Appointment
+ADD CONSTRAINT fk_Appointment_4
+    FOREIGN KEY( doctor_id )
+	REFERENCES Doctor( doctor_id )
+;
+
+ALTER TABLE Diseases
+ADD CONSTRAINT fk_Diseases_1
+    FOREIGN KEY( disease_name )
+	REFERENCES Disease( disease_name )
+;
+
+ALTER TABLE Diseases
+ADD CONSTRAINT fk_Diseases_2
+    FOREIGN KEY( appointment_id )
+	REFERENCES Appointment( appointment_id )
 ;

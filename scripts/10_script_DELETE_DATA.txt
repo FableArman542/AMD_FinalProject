@@ -6,7 +6,7 @@
 --=============
 -- Ligação à BD
 --=============
-\set dataBase db_operational
+\set dataBase db_final_project
 ;
 \set userName postgres
 ;
@@ -20,7 +20,9 @@
 -- drop data
 --===============
 
-DELETE FROM r2;
-DELETE FROM r3;
-DELETE FROM r4;
-DELETE FROM r1;
+DELETE FROM Diseases;
+DELETE FROM Disease;
+DELETE FROM Appointment;
+DELETE FROM Lenses;
+DELETE FROM TearRate;
+DELETE FROM Doctor;
