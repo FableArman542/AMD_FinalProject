@@ -52,11 +52,31 @@ VALUES ( 2, 'Stacy' )
 
 -- Patient
 INSERT INTO Patient( patient_id, name, birth_date )
-VALUES ( 1, 'Joao Cunha', '1990-01-01')
+VALUES ( 1, 'Joao Cunha', '1990-02-27')
 ;
 
 INSERT INTO Patient( patient_id, name, birth_date )
 VALUES ( 2, 'Duarte Cunha', '1995-01-01')
+;
+
+INSERT INTO Patient( patient_id, name, birth_date )
+VALUES ( 3, 'Miguel Taveira', '1999-04-12')
+;
+
+INSERT INTO Patient( patient_id, name, birth_date )
+VALUES ( 4, 'Miguel Pequeno', '1999-05-12')
+;
+
+INSERT INTO Patient( patient_id, name, birth_date )
+VALUES ( 5, 'Goncalo G', '1982-01-01')
+;
+
+INSERT INTO Patient( patient_id, name, birth_date )
+VALUES ( 6, 'Gustavo G', '1953-07-02')
+;
+
+INSERT INTO Patient( patient_id, name, birth_date )
+VALUES ( 7, 'Joana Pimenta', '1997-07-23')
 ;
 
 -- Disease
@@ -83,7 +103,57 @@ VALUES ( 2, 1, '2021-11-6', 'hard', 'reduced', 2)
 
 INSERT INTO Appointment
 ( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
-VALUES ( 3, 2, '2021-11-6', 'hard', 'reduced', 1)
+VALUES ( 3, 2, '2021-11-6', 'soft', 'reduced', 1)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 4, 3, '2021-11-2', 'soft', 'normal', 1)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 5, 3, '2021-11-3', 'hard', 'normal', 2)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 6, 4, '2021-10-23', 'soft', 'normal', 2)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 7, 4, '2021-10-26', 'none', 'normal', 2)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 8, 4, '2021-11-03', 'none', 'normal', 2)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 9, 4, '2021-11-11', 'none', 'normal', 2)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 10, 5, '2021-09-17', 'none', 'normal', 1)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 11, 5, '2021-11-26', 'hard', 'reduced', 1)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 12, 6, '2021-09-17', 'none', 'reduced', 1)
+;
+
+INSERT INTO Appointment
+( appointment_id, patient_id, appointment_date, lens_name, tear_rate_name, doctor_id)
+VALUES ( 13, 7, '2021-11-05', 'soft', 'normal', 2)
 ;
 
 -- Diseases
@@ -100,4 +170,24 @@ VALUES ( 'hypermetrope', 2 )
 
 INSERT INTO Diseases( disease_name, appointment_id )
 VALUES ( 'astigmatic', 3 )
+;
+
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'astigmatic', 5 )
+;
+
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'hypermetrope', 7 )
+;
+
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'myope', 8 )
+;
+
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'astigmatic', 11 )
+;
+
+INSERT INTO Diseases( disease_name, appointment_id )
+VALUES ( 'myope', 12 )
 ;

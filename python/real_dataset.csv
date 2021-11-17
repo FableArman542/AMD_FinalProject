@@ -1,0 +1,10 @@
+doctor_id,patient_id,name,age,appointment_date,lens_name,tear_rate_name,myope,astigmatic,hypermetrope
+discrete,discrete,discrete,discrete,discrete,discrete,discrete,discrete,discrete,discrete
+,,class,,,,,,class,class
+2,3,Miguel Taveira,22,2021-11-03,hard,normal,false,true,false
+1,2,Duarte Cunha,26,2021-11-06,soft,reduced,false,true,false
+2,7,Joana Pimenta,24,2021-11-05,soft,normal,false,false,false
+1,6,Gustavo G,68,2021-09-17,none,reduced,true,false,false
+1,5,Goncalo G,39,2021-11-26,hard,reduced,false,true,false
+2,4,Miguel Pequeno,22,2021-11-11,none,normal,false,false,false
+2,1,Joao Cunha,31,2021-11-06,hard,reduced,false,false,true
