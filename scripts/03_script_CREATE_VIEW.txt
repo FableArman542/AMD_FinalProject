@@ -32,14 +32,21 @@ DROP VIEW IF EXISTS v1_dataset;
 ---------------------------------
 
 
-
+--(SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) || '' AS age,
 
 CREATE VIEW v1 AS 
 SELECT
 A.doctor_id || '' AS doctor_id,
 P.patient_id || '' AS patient_id,
 P.name || '' AS name,
-(SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) || '' AS age,
+CASE
+	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) >= 40
+		THEN 'presbyopic'
+	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) >= 18 AND (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) < 40
+		THEN 'pre-presbyopic'
+	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) < 18
+		THEN 'young'
+END AS age,
 A.appointment_date || '' AS appointment_date,
 A.lens_name || '' AS lens_name,
 A.tear_rate_name || '' AS tear_rate_name,
