@@ -69,12 +69,12 @@ myope text,
 astigmatic text,
 hypermetrope text);
 
-INSERT INTO t1_class VALUES ( NULL, NULL, 'class', NULL, NULL, NULL, NULL, NULL,'class', 'class' );
+INSERT INTO t1_class VALUES ( NULL, NULL, NULL, NULL, NULL, 'class', NULL, NULL, NULL, NULL );
 INSERT INTO t1_class VALUES ( 'discrete', 'discrete', 'discrete', 'discrete', 'discrete',
 'discrete', 'discrete', 'discrete', 'discrete', 'discrete' );
 
 CREATE VIEW v1_domain AS SELECT * FROM t1_class WHERE t1_class.hypermetrope = 'discrete';
-CREATE VIEW v1_class AS SELECT * FROM t1_class WHERE t1_class.hypermetrope = 'class';
+CREATE VIEW v1_class AS SELECT * FROM t1_class WHERE t1_class.lens_name = 'class';
 
 -- Orange "3-Row-Header" format
 
@@ -99,6 +99,6 @@ UNION
 ORDER BY
 	(CASE
 		WHEN hypermetrope = 'discrete' THEN 1
-		WHEN hypermetrope = 'class' THEN 2
+		WHEN lens_name = 'class' THEN 2
 		ELSE 5
 	END) ASC;

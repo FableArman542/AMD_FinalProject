@@ -184,7 +184,8 @@ def test():
    # fileName = "./_dataset/lenses"
    #fileName = "./_dataset/lenses_copy"
    # fileName = "./_dataset/lenses_with_missingValues"
-   fileName = "./_dataset/lenses_fromLecture"
+   #fileName = "./lenses_fromLecture"
+   fileName = "teste1.csv"
    dataset = load( fileName )
 
    # print()
@@ -216,7 +217,8 @@ def test():
    print()
    print("1R Here")
    the_feature = "prescription" #"age"
-   the_features = ["prescription", "age", "tear_rate"]
+   #the_features = ["prescription", "age", "tear_rate", "astigmatic"]
+   the_features = ["tear_rate_name", "myope", "astigmatic", "hypermetrope", "age"]
 
    contasFinais = []
 
