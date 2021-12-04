@@ -39,6 +39,7 @@ SELECT
 A.doctor_id || '' AS doctor_id,
 P.patient_id || '' AS patient_id,
 P.name || '' AS name,
+A.appointment_date || '' AS appointment_date,
 CASE
 	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) >= 40
 		THEN 'presbyopic'
@@ -47,7 +48,6 @@ CASE
 	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) < 18
 		THEN 'young'
 END AS age,
-A.appointment_date || '' AS appointment_date,
 A.lens_name || '' AS lens_name,
 A.tear_rate_name || '' AS tear_rate_name,
 CAST(EXISTS (SELECT * FROM Diseases D WHERE D.appointment_id = A.appointment_id AND D.disease_name = 'myope') AS text) AS myope,
@@ -61,8 +61,8 @@ CREATE TABLE t1_class (
 doctor_id text,
 patient_id text,
 name text,
-age text,
 appointment_date text,
+age text,
 lens_name text,
 tear_rate_name text,
 myope text,
@@ -82,8 +82,8 @@ CREATE VIEW v1_dataset (
 doctor_id,
 patient_id,
 name,
-age,
 appointment_date,
+age,
 lens_name,
 tear_rate_name,
 myope,

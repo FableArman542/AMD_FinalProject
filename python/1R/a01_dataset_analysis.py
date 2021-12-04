@@ -187,6 +187,10 @@ def test():
    #fileName = "./lenses_fromLecture"
    fileName = "teste1.csv"
    dataset = load( fileName )
+   
+   print("DATASET")
+   print(dataset.domain.class_var)
+   
 
    # print()
    # aStr = ">> Percentage of missing values per variable <<"
