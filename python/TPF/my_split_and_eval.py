@@ -21,6 +21,7 @@
 from pandas import read_csv, DataFrame
 from numpy import array, set_printoptions
 import Orange as DM
+import seaborn as sns
 from u01_util import *
 from sklearn.model_selection import ShuffleSplit, StratifiedShuffleSplit, \
                                     KFold, StratifiedKFold, \
@@ -35,8 +36,10 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, \
 from sklearn.naive_bayes import GaussianNB
 from sklearn.tree import DecisionTreeClassifier
 from oneRClassifier import oneRClassifier
-
+from sklearn.metrics import confusion_matrix
 from sklearn.exceptions import UndefinedMetricWarning
+import matplotlib.pyplot as plt
+from sklearn.metrics import ConfusionMatrixDisplay
 import warnings
 # NOTE: use "ignore" (instead of "always") if you want to avoid warning due to:
 # - "no true samples" (thrown by score_recall and f_score metrics)
@@ -84,7 +87,7 @@ def show_train_test_split( X, y, tt_split_indexes, numFirstRows=10 ):
 def show_score( score_all ):
   if not score_all: return
   print( "::all-evaluated-datasets::" )
-  
+
   all_evaluated_datasets = [i*100.0 for i in score_all]
   for v in all_evaluated_datasets: print( " %.2f%% " %(v), end="|" )
   print()
@@ -280,7 +283,7 @@ def train_test_split_recipe( D, func_tt_split, *args_tt_split ):
 def score_recipe( classifier, X, y, tt_split_indexes,
                   f_score, **keyword_args_score ):
     score_all_list = list()
-
+    y_test, y_predict = [],[]
     for ( train_index, test_index ) in tt_split_indexes.split( X, y ):
       X_train, y_train = X[train_index], y[train_index]
       X_test,  y_test  = X[test_index],  y[test_index]
@@ -291,13 +294,12 @@ def score_recipe( classifier, X, y, tt_split_indexes,
       # predict using the model and X_test (testing dataset)
       y_predict = classifier.predict( X_test )
       # score the model using y_test (expected) and y_predict (predicted)
-      print(y_test)
-      print(y_predict)
+
       score = f_score( y_test, y_predict, **keyword_args_score )
       
       score_all_list.append( score )
 
-    return score_all_list
+    return score_all_list,y_test, y_predict
 def convertHelp(y_test):
   y_test2 = []
   for i in range(len(y_test)):
@@ -318,18 +320,20 @@ def score_recipe2(classifier, dataset1, list_score_metric):
 
   y_predict = classifier.predict(X_test)
 
-
-
-
+  score_all_list = []
   # score the model using y_test (expected) and y_predict (predicted)
   for (f_score, keyword_args_score) in list_score_metric:
 
     score = f_score(y_test, y_predict, **keyword_args_score)
     score_all_list.append(score)
     show_function_name("score_method:", f_score)
-    show_score(score_all_list)
+    show_score([score])
 
-  return score_all_list
+  print(y_test)
+  print(y_predict)
+
+
+  return score_all_list,y_test,y_predict
 
 #______________________________________________________________________________
 # lists to define the:

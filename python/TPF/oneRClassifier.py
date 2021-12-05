@@ -93,6 +93,13 @@ class oneRClassifier:
         self.result=contasFinais[1]
         # print("Classificacao =", contasFinais[1])
 
+        print("Melhor Atributo =", contasFinais[2])
+        for i in contasFinais[1]:
+            print("-> ", i[0], ":", i[2])
+
+        self.atributo=contasFinais[2]
+        self.result=contasFinais[1]
+
     def fit2(self,dataset):
         print("oneRClassifier")
         print("Created1R")

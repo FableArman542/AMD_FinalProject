@@ -19,7 +19,22 @@ from u01_util import *
 import warnings
 warnings.filterwarnings( "ignore", category=UndefinedMetricWarning ) #use "always" or "ignore"
 
-
+def plot_my_graph(y_test, y_predict,label, f_classifier):
+    conf_matrix = confusion_matrix(y_test, y_predict, labels=label)
+    #
+    # Print the confusion matrix using Matplotlib
+    #
+    fig, ax = plt.subplots(figsize=(7.5, 7.5))
+    ax.matshow(conf_matrix, cmap=plt.cm.Blues, alpha=0.3)
+    for i in range(conf_matrix.shape[0]):
+        for j in range(conf_matrix.shape[1]):
+            ax.text(x=j, y=i, s=conf_matrix[i, j], va='center', ha='center', size='xx-large')
+    ax.xaxis.set_ticklabels(['none1', 'none', 'soft', 'hard']);
+    ax.yaxis.set_ticklabels(['none1', 'none', 'soft', 'hard']);
+    plt.xlabel('y_predict', fontsize=18)
+    plt.ylabel('y_test', fontsize=18)
+    plt.title('Matrix de confusao\n' + f_classifier, fontsize=18)
+    plt.show()
 def main():
 
     fileName = "teste1.csv"
@@ -45,24 +60,26 @@ def main():
                 print("something")
                 show_function_name("classifier:", f_classifier)
                 classifier = oneRClassifier()
-                score_recipe2(classifier, dataset1, list_score_metric)
+                a,y_test, y_predict =score_recipe2(classifier, dataset1, list_score_metric)
+                plot_my_graph(y_test, y_predict,['none', 'soft', 'hard'],f_classifier.__name__)
 
             else:
                 classifier = f_classifier(*args_classifier)
                 show_function_name("classifier:", f_classifier)
-
+                y_test, y_predict =[],[]
                 for (f_score, keyword_args_score) in list_score_metric:
 
-                    score_all = score_recipe(classifier, X, y, tt_split_indexes,f_score, **keyword_args_score)
+                    score_all, y_test, y_predict = score_recipe(classifier, X, y, tt_split_indexes,f_score, **keyword_args_score)
                     show_function_name("score_method:", f_score)
                     show_score(score_all)
+                plot_my_graph(y_test, y_predict,[0,1,2],f_classifier.__name__)
 
         print(2 * "\n" + "<<< ----- >>>" + 2 * "\n")
 
 list_func_tt_split = \
   [
     (holdout, (1.0/7.0, seed)),
-    (stratified_holdout, (1.0/7.0, seed)),
+    #(stratified_holdout, (1.0/7.0, seed)),
     #(repeated_holdout, (1.0/3.0, 2, seed)),
     #(repeated_stratified_holdout, (1.0/3.0, 2, seed)),
     #(fold_split, (3, seed)),
