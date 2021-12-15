@@ -1,0 +1,104 @@
+--#############
+--# Paulo Trigo
+--#############
+
+
+--==============
+-- DB connection
+--==============
+\set dataBase db_final_project
+;
+\set userName postgres
+;
+\connect :dataBase :userName
+;
+--==========================
+--==========================
+
+
+-- additional information about "client_encoding" in:
+-- http://www.postgresql.org/docs/9.6/static/multibyte.html
+\encoding WIN1250
+;
+
+
+
+---------------------------------
+DROP TABLE IF EXISTS t1_class CASCADE;
+DROP VIEW IF EXISTS v1;
+DROP VIEW IF EXISTS v1_domain;
+DROP VIEW IF EXISTS v1_class;
+DROP VIEW IF EXISTS v1_dataset;
+---------------------------------
+
+
+--(SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) || '' AS age,
+
+CREATE VIEW v1 AS 
+SELECT
+A.doctor_id || '' AS doctor_id,
+P.patient_id || '' AS patient_id,
+P.name || '' AS name,
+A.appointment_date || '' AS appointment_date,
+CASE
+	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) >= 40
+		THEN 'presbyopic'
+	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) >= 18 AND (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) < 40
+		THEN 'pre-presbyopic'
+	WHEN (SELECT EXTRACT(YEAR FROM AGE(P.birth_date))) < 18
+		THEN 'young'
+END AS age,
+A.lens_name || '' AS lens_name,
+A.tear_rate_name || '' AS tear_rate_name,
+CAST(EXISTS (SELECT * FROM Diseases D WHERE D.appointment_id = A.appointment_id AND D.disease_name = 'myope') AS text) AS myope,
+CAST(EXISTS (SELECT * FROM Diseases D WHERE D.appointment_id = A.appointment_id AND D.disease_name = 'astigmatic') AS text) AS astigmatic,
+CAST(EXISTS (SELECT * FROM Diseases D WHERE D.appointment_id = A.appointment_id AND D.disease_name = 'hypermetrope') AS text) AS hypermetrope
+FROM Patient P INNER JOIN
+(SELECT AA.* FROM Appointment AA INNER JOIN (SELECT patient_id, MAX(appointment_date) AS appointment_date FROM Appointment GROUP BY patient_id) groupedA ON AA.patient_id = groupedA.patient_id AND AA.appointment_date = groupedA.appointment_date) A
+ON P.patient_id = A.patient_id;
+
+CREATE TABLE t1_class (
+doctor_id text,
+patient_id text,
+name text,
+appointment_date text,
+age text,
+lens_name text,
+tear_rate_name text,
+myope text,
+astigmatic text,
+hypermetrope text);
+
+INSERT INTO t1_class VALUES ( NULL, NULL, NULL, NULL, NULL, 'class', NULL, NULL, NULL, NULL );
+INSERT INTO t1_class VALUES ( 'discrete', 'discrete', 'discrete', 'discrete', 'discrete',
+'discrete', 'discrete', 'discrete', 'discrete', 'discrete' );
+
+CREATE VIEW v1_domain AS SELECT * FROM t1_class WHERE t1_class.hypermetrope = 'discrete';
+CREATE VIEW v1_class AS SELECT * FROM t1_class WHERE t1_class.lens_name = 'class';
+
+-- Orange "3-Row-Header" format
+
+CREATE VIEW v1_dataset (
+doctor_id,
+patient_id,
+name,
+appointment_date,
+age,
+lens_name,
+tear_rate_name,
+myope,
+astigmatic,
+hypermetrope) AS
+SELECT * FROM (
+	SELECT * FROM v1 V
+UNION
+	SELECT * FROM v1_domain D
+UNION
+	SELECT * FROM v1_class C
+) t
+ORDER BY
+	(CASE
+		WHEN hypermetrope = 'discrete' THEN 1
+		WHEN lens_name = 'class' THEN 2
+		ELSE 5
+	END) ASC;
