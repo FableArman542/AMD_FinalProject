@@ -37,16 +37,17 @@ def plot_my_graph(y_test, y_predict,label, f_classifier):
     plt.show()
 def main():
 
-    fileName = "teste1.csv"
+    fileName = "dataset_long_name_EXPORTED.tab"
     dataset1 = load(fileName)
     #oneRClassifier().oneRClassifierTest(dataset1)
-    dataset=dataset1[:,4:]
+    # dataset=dataset1[:,4:]
+    dataset = dataset1
 
     print(dataset)
     dataset = DataFrame(dataset)
 
 
-    dataset = DataFrame(dataset)
+    # dataset = DataFrame(dataset)
     show_data(dataset)
 
 
@@ -99,8 +100,8 @@ list_func_tt_split = \
 # <your-code-here>
 list_func_classifier = \
   [
-    (GaussianNB, ()),
-    (DecisionTreeClassifier, ()),
+    # (GaussianNB, ()),
+    # (DecisionTreeClassifier, ()),
     (oneRClassifier,())
   ]
 

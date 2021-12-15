@@ -27,7 +27,11 @@ class oneRClassifier:
 
     def fit(self,dataset):
 
+        # print("DATASET", dataset.domain)
+        print("DATASET", dataset.domain.variables)
         the_features = ["tear_rate_name", "myope", "astigmatic", "hypermetrope", "age"]
+        
+        the_features = [ var.name for var in dataset.domain.attributes ]
 
         contasFinais = []
 
@@ -55,6 +59,9 @@ class oneRClassifier:
             for feature in range(len(featureDomain)):
                 errorFeature = errorMatrix[:, feature]
                 errorMin = min(errorFeature)
+                print(errorFeature)
+                print(feature)
+                print("HHHHHHHHHHHHHH",errorMin)
                 errorMinIndex = errorFeature.tolist().index(errorMin)
                 featureValue = featureDomain[feature]
                 classValue = classDomain[errorMinIndex]

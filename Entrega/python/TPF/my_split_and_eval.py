@@ -310,13 +310,14 @@ def convertHelp(y_test):
 def score_recipe2(classifier, dataset1, list_score_metric):
 
   score_all_list = list()
+  dataset1.shuffle()
   data_train, data_test = dataPrep(dataset1)
 
   classifier.fit(data_train)
   # predict using the model and X_test (testing dataset)
 
-  X_test=data_test[:,:9]
-  y_test = convertHelp(data_test[:, 9])
+  X_test=data_test[:,:7000]
+  y_test = convertHelp(data_test[:, 7000])
 
   y_predict = classifier.predict(X_test)
 
