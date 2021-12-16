@@ -1,0 +1,28 @@
+--#############
+--# Paulo Trigo
+--#############
+
+
+--=============
+-- Ligação à BD
+--=============
+\set dataBase db_final_project
+;
+\set userName postgres
+;
+\connect :dataBase :userName
+;
+--==========================
+--==========================
+
+
+--===============
+-- drop data
+--===============
+
+DELETE FROM Diseases;
+DELETE FROM Disease;
+DELETE FROM Appointment;
+DELETE FROM Lenses;
+DELETE FROM TearRate;
+DELETE FROM Doctor;

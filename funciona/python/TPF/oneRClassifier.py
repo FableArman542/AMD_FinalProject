@@ -1,4 +1,3 @@
-from os import error
 import numpy as np
 import warnings
 from sklearn.exceptions import UndefinedMetricWarning
@@ -26,13 +25,11 @@ class oneRClassifier:
 
         return my_result
 
-    def fit(self,dataset,the_features):
-
+    def fit(self,dataset):
         #the_features = ["tear_rate_name", "myope", "astigmatic", "hypermetrope", "age"]
-        
+        #print(the_features)
         the_features = [ var.name for var in dataset.domain.attributes ]
-        print(the_features)
-
+        #print(the_features)
         contasFinais = []
 
         for feat in the_features:
@@ -55,19 +52,15 @@ class oneRClassifier:
 
 
             total = np.sum(cMatrix)
-            print(">Feature Domain:", featureDomain)
+
             for feature in range(len(featureDomain)):
-                print(">Error Matrix:", errorMatrix)
-                print(">Feature:", feature)
                 errorFeature = errorMatrix[:, feature]
                 errorMin = min(errorFeature)
-                print(">Error Feature:", type(errorFeature[0]))
-                print(">Feature:", feature)
-                print(">Error Min:", errorMin)
                 errorMinIndex = errorFeature.tolist().index(errorMin)
                 featureValue = featureDomain[feature]
                 classValue = classDomain[errorMinIndex]
-                showStr = "(" + feat + ", " + featureValue + ", " + classValue + ") : "
+                showStr = "(" + feat + ", " + featureValue + ", " + classValue + ") : "+str(errorMin)
+                #print(showStr)
 
                 minErrors.append([featureValue, errorMin, classValue])
 
@@ -245,10 +238,9 @@ class oneRClassifier:
     def get_conditionalProbability(self,dataset, H, E):
         if (isinstance(H, str)): H = self.get_variableFrom_str(dataset, H)
         if (isinstance(E, str)): E = self.get_variableFrom_str(dataset, E)
-
         if (not (H and E)): return ([], [], None)
         (rowDomain, colDomain, cMatrix) = self.get_contingencyMatrix(dataset, H, E)
-        print ("ERROR MATRIX0000000", cMatrix)
+
         len_rowDomain, len_colDomain = len(rowDomain), len(colDomain)
         E_marginal = np.zeros(len_colDomain)
         for col in range(len_colDomain): E_marginal[col] = sum(cMatrix[:, col])
@@ -256,5 +248,5 @@ class oneRClassifier:
         for row in range(len_rowDomain):
             for col in range(len_colDomain):
                 cMatrix[row, col] = cMatrix[row, col] / E_marginal[col]
-        print ("ERROR MATRIX", cMatrix)
+        cMatrix[np.isnan(cMatrix)] = 0
         return (rowDomain, colDomain, cMatrix)

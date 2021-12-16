@@ -29,27 +29,26 @@ def plot_my_graph(y_test, y_predict,label, f_classifier):
     for i in range(conf_matrix.shape[0]):
         for j in range(conf_matrix.shape[1]):
             ax.text(x=j, y=i, s=conf_matrix[i, j], va='center', ha='center', size='xx-large')
-    ax.xaxis.set_ticklabels(['none1', 'none', 'soft', 'hard']);
-    ax.yaxis.set_ticklabels(['none1', 'none', 'soft', 'hard']);
+    ax.xaxis.set_ticklabels(np.hstack(([''],label)));
+    ax.yaxis.set_ticklabels(np.hstack(([''],label)));
     plt.xlabel('y_predict', fontsize=18)
     plt.ylabel('y_test', fontsize=18)
     plt.title('Matrix de confusao\n' + f_classifier, fontsize=18)
     plt.show()
 def main():
 
-    #fileName = "dataset_long_name_EXPORTED.tab"
     fileName = "teste1.csv"
+    fileName = "dataset_long_name_EXPORTED.tab"
     dataset1 = load(fileName)
+    #print(dataset1)
     #oneRClassifier().oneRClassifierTest(dataset1)
-    dataset=dataset1[:,4:]
-    #dataset = dataset1
-
-    print(dataset)
+    print()
+    #dataset=dataset1[:,4:]
+    dataset=dataset1
+    #print(dataset)
     dataset = DataFrame(dataset)
 
-
-    # dataset = DataFrame(dataset)
-    show_data(dataset)
+    #show_data(dataset)
 
 
     for (f_tt_split, args_tt_split) in list_func_tt_split:
@@ -63,8 +62,7 @@ def main():
                 show_function_name("classifier:", f_classifier)
                 classifier = oneRClassifier()
                 a,y_test, y_predict =score_recipe2(classifier, dataset1, list_score_metric)
-                plot_my_graph(y_test, y_predict,['none', 'soft', 'hard'],f_classifier.__name__)
-
+                plot_my_graph(y_test, y_predict,['EDIBLE', 'POISONOUS'],f_classifier.__name__)
             else:
                 classifier = f_classifier(*args_classifier)
                 show_function_name("classifier:", f_classifier)
@@ -74,7 +72,7 @@ def main():
                     score_all, y_test, y_predict = score_recipe(classifier, X, y, tt_split_indexes,f_score, **keyword_args_score)
                     show_function_name("score_method:", f_score)
                     show_score(score_all)
-                plot_my_graph(y_test, y_predict,[0,1,2],f_classifier.__name__)
+                plot_my_graph(y_test, y_predict,['EDIBLE', 'POISONOUS'],f_classifier.__name__)
 
         print(2 * "\n" + "<<< ----- >>>" + 2 * "\n")
 
@@ -101,8 +99,8 @@ list_func_tt_split = \
 # <your-code-here>
 list_func_classifier = \
   [
-    # (GaussianNB, ()),
-    # (DecisionTreeClassifier, ()),
+    #(GaussianNB, ()),
+    #(DecisionTreeClassifier, ()),
     (oneRClassifier,())
   ]
 
@@ -117,7 +115,7 @@ list_score_metric = \
     (precision_score, {"average":"weighted"}), #macro #micro #weighted
     (recall_score, {"average":"weighted"}), #macro #micro #weighted
     (f1_score, {"average":"weighted"}), #macro #micro #weighted
-    (cohen_kappa_score, {}),
+    #(cohen_kappa_score, {}),
   ]
 #______________________________________________________________________________
 # The "main" of this module (in case it was not loaded from another module)

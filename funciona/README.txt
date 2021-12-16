@@ -1,0 +1,12 @@
+- A apresentação segue no ficheiro "Presentation.pptx"
+- Todos os scripts SQL encontram-se no diretório "/scripts"
+- É necessário trocar os scripts terminados em ".b" para ".bat"
+	- O script "_go00.bat" cria a base de dados
+	- O script "_go01.bat" cria o schema
+	- O script "_go02.bat" popula a base de dados com os dados fornecidos pela MedKnow
+	- O script "_go03.bat" cria as vistas necessárias
+	- O script "_go10.bat" apaga todos os dados existentes na base de dados
+	- O script "_go20.bat" dá DROP de todas as tabelas da base de dados
+	- O script "_go30.bat" exporta a vista "v1_dataset" para o ficheiro "C:\amdexports\teste1.txt"
+- A implementação dos classificadores 1R, ID3 e Naive Bayes está no projeto Python no diretório "/python/TPF"
+	- Ao correr o main.py do projeto, todos os classificadores são demonstrados na consola e os seus resultados
