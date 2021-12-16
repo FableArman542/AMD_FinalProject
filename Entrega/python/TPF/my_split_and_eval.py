@@ -263,14 +263,13 @@ def bootstrap_split_repeated( n_repeat, seed=None ):
 
 
 
-
 #____________________________________
 # the general Train-Test-Split Recipe
 #____________________________________
 def train_test_split_recipe( D, func_tt_split, *args_tt_split ):
   # split the dataset into features, X, and class, y, attributes
   (X, y) = split_dataset_Xy( D )
-
+  
   # get train and test (tt) split indexes   
   tt_split_indexes = func_tt_split( *args_tt_split )
   return ( X, y, tt_split_indexes )
