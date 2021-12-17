@@ -34,9 +34,15 @@ def main():
 
     results=classifier.fit(dataset1,[ var.name for var in dataset1.domain.attributes ])
 
+    file1 = open("oneR_OUTPUT.txt","w") 
+    
     print("Resultados:")
     for result in results:
+        file1.writelines(result+"\n")
         print(result)
+
+    
+    file1.close()
 
 #______________
 # score metrics

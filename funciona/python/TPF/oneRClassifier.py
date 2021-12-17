@@ -106,10 +106,6 @@ class oneRClassifier:
             #print("-> ", i[0], ":", i[2])
             listResult.append("(" + contasFinais[2] + ", " + contasFinais[1][i][0] + ", " + contasFinais[1][i][2] + ") : ("+str(round(contasFinais[3][i][0]))+", "+str(round(contasFinais[3][i][1]))+")")
             #print("(" + contasFinais[2] + ", " + i[0] + ", " + i[2] + ") : ("+i[1]+", "+i[3]+")")
-
-        self.atributo=contasFinais[2]
-        self.result=contasFinais[1]
-
         return listResult
 
     def fit2(self,dataset):
