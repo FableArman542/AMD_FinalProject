@@ -307,13 +307,12 @@ def convertHelp(y_test):
   y_test = np.asarray(y_test2)
   return y_test
 
-def score_recipe2(classifier, dataset1, list_score_metric):
+def score_recipe2(classifier, dataset1, list_score_metric,the_features):
 
   score_all_list = list()
   dataset1.shuffle()
   data_train, data_test = dataPrep(dataset1)
-  
-  classifier.fit(data_train)
+  classifier.fit(data_train,the_features)
   # predict using the model and X_test (testing dataset)
   
   X_test=data_test[:,:len(data_test[0])-1]

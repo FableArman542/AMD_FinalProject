@@ -3,7 +3,6 @@ import warnings
 from sklearn.exceptions import UndefinedMetricWarning
 warnings.filterwarnings( "ignore", category=UndefinedMetricWarning ) #use "always" or "ignore"
 class oneRClassifier:
-
     def __init__(self):
         print("oneRClassifierInit")
 
@@ -25,12 +24,13 @@ class oneRClassifier:
 
         return my_result
 
-    def fit(self,dataset):
+    def fit(self,dataset,the_features):
         #the_features = ["tear_rate_name", "myope", "astigmatic", "hypermetrope", "age"]
         #print(the_features)
-        the_features = [ var.name for var in dataset.domain.attributes ]
+        #the_features = [ var.name for var in dataset.domain.attributes ]
         #print(the_features)
         contasFinais = []
+        listResult = []
 
         for feat in the_features:
 
@@ -59,25 +59,28 @@ class oneRClassifier:
                 errorMinIndex = errorFeature.tolist().index(errorMin)
                 featureValue = featureDomain[feature]
                 classValue = classDomain[errorMinIndex]
+                #print(errorFeature)
                 showStr = "(" + feat + ", " + featureValue + ", " + classValue + ") : "+str(errorMin)
                 #print(showStr)
+                
 
                 minErrors.append([featureValue, errorMin, classValue])
 
             count = 0
+            erroList =[]
             for i in range(len(rowDomain)):
                 soma = np.sum(cMatrix[i])
                 erro = minErrors[i][1]
                 num = erro * soma
-                # print(str(rowDomain[i]) + ", " + str(soma) + ", " + str(erro))
-                # print(str(num))
+                #print(str(rowDomain[i]) + ", " + str(soma) + ", " + str(erro))
+                erroList.append([num,soma])
                 count += num
                 # print("_________________")
 
             minErrors = np.array(minErrors)
 
             contaFinal = count / total
-            contasFinais.append([contaFinal, minErrors, feat])
+            contasFinais.append([contaFinal, minErrors, feat,erroList])
 
 
 
@@ -93,14 +96,21 @@ class oneRClassifier:
 
         self.atributo=contasFinais[2]
         self.result=contasFinais[1]
-        # print("Classificacao =", contasFinais[1])
+        #print(contasFinais[0])
+        #print("Classificacao =", contasFinais[1])
 
-        print("Melhor Atributo =", contasFinais[2])
-        for i in contasFinais[1]:
-            print("-> ", i[0], ":", i[2])
+        #print("Melhor Atributo =", contasFinais[2])
+
+        #for i in contasFinais[1]:
+        for i in range (len(contasFinais[1])):
+            #print("-> ", i[0], ":", i[2])
+            listResult.append("(" + contasFinais[2] + ", " + contasFinais[1][i][0] + ", " + contasFinais[1][i][2] + ") : ("+str(round(contasFinais[3][i][0]))+", "+str(round(contasFinais[3][i][1]))+")")
+            #print("(" + contasFinais[2] + ", " + i[0] + ", " + i[2] + ") : ("+i[1]+", "+i[3]+")")
 
         self.atributo=contasFinais[2]
         self.result=contasFinais[1]
+
+        return listResult
 
     def fit2(self,dataset):
         print("oneRClassifier")

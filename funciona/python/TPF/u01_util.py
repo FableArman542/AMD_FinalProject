@@ -10,6 +10,8 @@
 # Some Utility Functions
 from pandas import read_csv, DataFrame
 from numpy import array, set_printoptions
+import matplotlib.pyplot as plt
+from sklearn.metrics import confusion_matrix
 import numpy as np
 import Orange as DM
 def my_print( aStr ):
@@ -60,7 +62,24 @@ def dataPrep2(data):
    return orangesplitTrain,orangesplitTest
 
 def dataPrep(data):
-   cut = int(len(data)*0.7)
+   cut = int(len(data)*0.85)
    orangesplitTrain=data[:cut]
    orangesplitTest = data[cut:]
    return orangesplitTrain,orangesplitTest
+
+def plot_my_graph(y_test, y_predict,label, f_classifier):
+    conf_matrix = confusion_matrix(y_test, y_predict, labels=label)
+    #
+    # Print the confusion matrix using Matplotlib
+    #
+    fig, ax = plt.subplots(figsize=(7.5, 7.5))
+    ax.matshow(conf_matrix, cmap=plt.cm.Blues, alpha=0.3)
+    for i in range(conf_matrix.shape[0]):
+        for j in range(conf_matrix.shape[1]):
+            ax.text(x=j, y=i, s=conf_matrix[i, j], va='center', ha='center', size='xx-large')
+    ax.xaxis.set_ticklabels(np.hstack(([''],label)))
+    ax.yaxis.set_ticklabels(np.hstack(([''],label)))
+    plt.xlabel('y_predict', fontsize=18)
+    plt.ylabel('y_test', fontsize=18)
+    plt.title('Matrix de confusao\n' + f_classifier, fontsize=18)
+    plt.show()
